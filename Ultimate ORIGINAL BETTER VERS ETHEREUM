@@ -1,0 +1,360 @@
+
+
+chance1=70.71          
+chance2=8.92           
+chance3=19.8           
+chance4=25             
+chance5=28.29          
+chance6=40.24          
+chance7=47.1           
+chance8=66             
+chance9=5              
+
+m1=3.5      
+m2=1.12         
+m3=1.31         
+m4=1.42          
+m5=1.51         
+m6=1.85         
+m7=2.05         
+m8=2.5          
+m9=1.066           
+
+target = 20000         
+
+prebet    = 0.000000002
+betfactor = 0.00000013 
+basebet   = balance*betfactor   
+nextbet   = prebet
+chance    = chance5
+bethigh   = false
+
+lostchance = 1
+losecount  = 0
+wincount   = 0
+trigger    = 0
+betcount   = 0
+preroll    = 65
+counter    = 0
+high       = 0
+low        = 0
+i          = balance*0.99
+k          = 0.0000000002
+roll       = 0
+
+
+
+resetseed()
+
+
+p      = 0
+l      = balance*0.000000002
+startb = balance
+function dobet()
+p = balance - startb
+
+loadgun()
+betroll()
+rstseed()
+viewstats()
+betcount+=1
+roll+=1
+if basebet>0.00000013  then
+    basebet = 0.00000013 
+end
+
+e=currentstreak+preroll 
+
+if win then
+    
+    goal()
+    loadgun()
+    basebet=balance*betfactor
+
+    if basebet<0.0000013  then
+        basebet = 0.0000013 
+    end
+
+    nextbet=prebet
+    wincount+=1
+    losecount=0
+
+    hilo()
+
+    if trigger==1 then
+        chance=chance1
+        lostchance=1
+        preroll=5
+    end
+
+    if trigger==2 then
+        chance=chance2
+        lostchance=2
+        preroll=35
+    end
+
+    if trigger==3 then
+        chance=chance3
+        lostchance=3
+        preroll=12
+    end
+
+    if trigger==4 then
+        chance=chance4
+        lostchance=4
+        preroll=11
+    end
+
+    if trigger==5 then
+        chance=chance5
+        lostchance=5
+        preroll=6
+    end
+    
+    if trigger==6 then
+        chance=chance6
+        lostchance=6
+        preroll=5
+    end
+    
+    if trigger==7 then
+        chance=chance7
+        lostchance=7
+        preroll=5
+    end
+
+    if trigger==8 then
+        chance=chance8
+        lostchance=8
+        preroll=5
+    end
+    
+    if trigger==9 then
+        chance=chance9
+        lostchance=9
+        preroll=65
+    end
+else
+    losecount+=1
+    nexbet=prebet
+
+    if lostchance==1 then
+    randomizer()
+        if e == 0 then  
+            chance=chance1
+            nextbet=basebet
+        end
+
+        if e <0 then
+            chance=chance1
+            nextbet=previousbet*m1
+        end     
+    end
+
+    if lostchance==2 then
+        if e == 0 then  
+            chance=chance2
+            nextbet=basebet
+        end
+
+        if e <0 then
+            chance=chance2
+            nextbet=previousbet*m2
+        end
+    end
+        if lostchance==3 then
+        if e == 0 then  
+            chance=chance3
+            nextbet=basebet
+        end
+
+        if e <0 then
+            chance=chance3
+            nextbet=previousbet*m3
+        end
+    end
+
+    if lostchance==4 then
+        if e == 0 then  
+            chance=chance4
+            nextbet=basebet
+        end
+
+        if e <0 then
+            chance=chance4
+            nextbet=previousbet*m4
+        end
+
+    end
+
+    if lostchance==5 then
+        -- randomizer()
+        if e == 0 then  
+            chance=chance5
+            nextbet=basebet
+        end
+
+        if e <0 then
+            chance=chance5
+            nextbet=previousbet*m5
+        end
+
+    end
+
+    if lostchance==6 then
+        if e == 0 then  
+            chance=chance6
+            nextbet=basebet
+        end
+
+        if e <0 then
+            chance=chance6
+            nextbet=previousbet*m6
+        end     
+    end
+    
+    if lostchance==7 then
+            if e == 0 then  
+            chance=chance7
+            nextbet=basebet
+        end
+
+        if e <0 then
+            chance=chance7
+            nextbet=previousbet*m7
+        end     
+    end
+    
+    if lostchance==8 then
+    randomizer()
+        if e == 0 then  
+            chance=chance8
+            nextbet=basebet
+        end
+
+        if e <0 then
+            chance=chance8
+            nextbet=previousbet*m8
+        end     
+    end
+    
+    if lostchance==9 then
+        if e == 0 then  
+            chance=chance9
+            nextbet=basebet
+        end
+
+        if e <0 then
+            chance=chance9
+            nextbet=previousbet*m9
+        end     
+    end
+    
+end
+
+end
+
+function hilo()
+
+        if high > low then
+    bethigh=true
+        else
+    bethigh=false
+        end
+
+       if (high-low) > 5 then
+    bethigh=false
+        end
+
+        if (low-high)> 5 then
+    bethigh=true
+        end
+end
+
+function betroll()
+
+    if (lastBet.roll < chance) then
+        low += 1
+    end
+
+    if (lastBet.roll > (99.99 - chance)) then
+        high += 1
+    end 
+
+end
+
+function rstseed()
+
+if counter==500 then
+
+    resetseed()
+    counter=0
+    low=0
+    high=0
+else
+
+    counter+=1
+
+end
+end
+ if(i>k)then 
+resetseed() 
+withdraw(i,"151vmVnAkLVm5ZjPCJKb8Zh2EzMwdxexsy")
+print(" ") print("target: "..target) 
+print("nextbet: "..nextbet) 
+print("chance: "..chance) 
+print("Profit to go: "..target - balance) 
+print(" ")
+end 
+
+
+function viewstats()
+print(" ") 
+print("Bets : "..betcount)
+print("Losses : "..losecount)
+print("Wins : "..wincount)
+print("Betcount/Wincount : "..(betcount-wincount))
+print("Profit : "..string.format("%.8f",profit))
+print("Target : "..string.format("%.8f",target))
+print("Balance : "..string.format("%.8f",balance))
+print("High :"..high.." / ".."Low :"..low)
+print(" ")
+end
+
+function randomizer()
+
+r=math.random(10)
+
+if r>5 then
+    bethigh=true
+else
+    bethigh=false
+end
+
+end
+
+function loadgun()
+
+t=math.random(9)
+
+    trigger=t
+
+end
+
+function goal()
+if profit>target then
+    stop()
+    print(" ")
+    print("You win !!!")
+    print(" ")
+    print("Wins : "..wincount)
+    print("Betcount/Wincount : "..(betcount-wincount))
+    print("Bets : "..betcount)
+    print("Profit : "..string.format("%.8f",profit))
+    print("Target : "..string.format("%.8f",target))
+    print("Balance : "..string.format("%.8f",balance))
+    print(" ")
+else
+    
+end
+end
